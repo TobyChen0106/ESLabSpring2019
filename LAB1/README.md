@@ -1,8 +1,8 @@
 # 107-2 嵌入式實驗 LAB 1
 - 組名：請問柏志要喝奶茶還是按摩呢？
 - 組員：B06901004劉穎立、B05901170陳柏志、B05901179詹欣玥
-## 0. Develop environment
-- Mbed
+## 0. Develop Environment
+- We use MBED as our develop environment.
 ![](https://i.imgur.com/WcRwGFU.png)
 
 ## 1. Digital Input/Outputand GPIO
@@ -71,8 +71,7 @@ What we know about interrupt:
 - Incoming interrupts are disabled while another interrupt is being processed to prevent a lost interrupt.
 - An operating system is interrupt driven.
 
-## 3. MBED
-- All systems above are implemented using MBED
-
+## 3. DEMO Video
+    ![](https://imgur.com/7vTb07L)
 ## 4. 心得
 　　我們遇到的第一個問題是在做Square Root Approximation的時候不知道要怎麼用電腦輸入數字，跟如何接收板子算完的結果再顯示在電腦上，後來安裝了ST Link Driver後就可以用serial的scanf跟printf。
