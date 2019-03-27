@@ -1,6 +1,9 @@
 # 107-2 嵌入式實驗 LAB 1
 - 組名：請問柏志要喝奶茶還是按摩呢？
 - 組員：B06901004劉穎立、B05901170陳柏志、B05901179詹欣玥
+## 0. Develop environment
+- Mbed
+![](https://i.imgur.com/WcRwGFU.png)
 
 ## 1. Digital Input/Outputand GPIO
 
