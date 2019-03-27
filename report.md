@@ -28,15 +28,15 @@ myled = !mypin; // toggle led based on value of button
 }
 ```
 
-DigitalIn的mode
-PULLDOWN: Input becomes HIGH when pressed down.
-PULLUP: Input becomes LOW when pressed down
-USER_BUTTON will remain as PULLUP no matter what mode you define it as.
+#### DigitalIn的mode
+- PULLDOWN: Input becomes HIGH when pressed down.
+- PULLUP: Input becomes LOW when pressed down
+- USER_BUTTON will remain as PULLUP no matter what mode you define it as.
 
-Interrupt and Low Power Features
+## 2. Interrupt and Low Power Features
 
-程式碼
-
+程式碼：
+```cpp
 #include "mbed.h"
 
 InterruptIn button(USER_BUTTON); //set button pin name and mode
@@ -59,14 +59,17 @@ int main() {
         wait(0.05);
     }
 }
+```
 
-Interrupt
+#### Interrupt
 What we know about interrupt:
-Interrupt transfers control to the interrupt service routine generally, through the interrupt vector, which contains the addresses of all the service routines.
-Interrupt architecture must save the address of the interrupted instruction.
-Incoming interrupts are disabled while another interrupt is being processed to prevent a lost interrupt.
-An operating system is interrupt driven.
+- Interrupt transfers control to the interrupt service routine generally, through the interrupt vector, which contains the addresses of all the service routines.
+- Interrupt architecture must save the address of the interrupted instruction.
+- Incoming interrupts are disabled while another interrupt is being processed to prevent a lost interrupt.
+- An operating system is interrupt driven.
 
+## 3. MBED
+- All systems above are implemented using MBED
 
-心得
+## 4. 心得
 　　我們遇到的第一個問題是在做Square Root Approximation的時候不知道要怎麼用電腦輸入數字，跟如何接收板子算完的結果再顯示在電腦上，後來安裝了ST Link Driver後就可以用serial的scanf跟printf。
