@@ -73,7 +73,7 @@ What we know about interrupt:
 
 ## 3. DEMO Video
 
-   ![](https://imgur.com/7vTb07L.gif)
+   ![](https://imgur.com/TQOW2lh.gif)
    
 ## 4. 心得
 　　我們遇到的第一個問題是在做Square Root Approximation的時候不知道要怎麼用電腦輸入數字，跟如何接收板子算完的結果再顯示在電腦上，後來安裝了ST Link Driver後就可以用serial的scanf跟printf。
