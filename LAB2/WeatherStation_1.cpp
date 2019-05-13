@@ -16,52 +16,74 @@
 
 #include "mbed.h"
 #include "ble/BLE.h"
-#include "ble/services/HeartRateService.h"
-#include "ble/services/BatteryService.h"
-#include "ble/services/DeviceInformationService.h"
+#include "XNucleoIKS01A2.h"
+#include "ble/services/EnvironmentalService.h"
+#if !defined(IDB0XA1_D13_PATCH)
+DigitalOut led1(LED1, 1);   // LED conflicts SPI_CLK in case of D13 patch
+#endif  
 
-DigitalOut led1(LED1);
+static XNucleoIKS01A2 *mems_expansion_board = XNucleoIKS01A2::instance(D14, D15, D4, D5);
 
-const static char     DEVICE_NAME[]        = "HRM1";
-static const uint16_t uuid16_list[]        = {GattService::UUID_HEART_RATE_SERVICE,
-                                              GattService::UUID_DEVICE_INFORMATION_SERVICE};
+/* Retrieve the composing elements of the expansion board */
+static HTS221Sensor *hum_temp = mems_expansion_board->ht_sensor;
+static LPS22HBSensor *press_temp = mems_expansion_board->pt_sensor;
+
+
+const static char     DEVICE_NAME[]        = "LILILILI";
 static volatile bool  triggerSensorPolling = false;
-
-uint8_t hrmCounter = 100; // init HRM to 100bps
-
-HeartRateService         *hrService;
-DeviceInformationService *deviceInfo;
 
 void disconnectionCallback(const Gap::DisconnectionCallbackParams_t *params)
 {
-    BLE::Instance(BLE::DEFAULT_INSTANCE).gap().startAdvertising(); // restart advertising
+    (void)params;
+    BLE::Instance().gap().startAdvertising(); // restart advertising
 }
 
 void periodicCallback(void)
 {
+    printf("periodicCallback!\n");
+#if !defined(IDB0XA1_D13_PATCH)
     led1 = !led1; /* Do blinky on LED1 while we're waiting for BLE events */
+#endif
 
     /* Note that the periodicCallback() executes in interrupt context, so it is safer to do
      * heavy-weight sensor polling from the main thread. */
     triggerSensorPolling = true;
 }
 
+void onBleInitError(BLE &ble, ble_error_t error)
+{
+    (void)ble;
+    (void)error;
+   /* Initialization error handling should go here */
+}
+
 void bleInitComplete(BLE::InitializationCompleteCallbackContext *params)
 {
-    BLE &ble          = params->ble;
+    BLE&        ble   = params->ble;
     ble_error_t error = params->error;
 
     if (error != BLE_ERROR_NONE) {
+        onBleInitError(ble, error);
+        return;
+    }
+
+    if (ble.getInstanceID() != BLE::DEFAULT_INSTANCE) {
         return;
     }
 
     ble.gap().onDisconnection(disconnectionCallback);
 
     /* Setup primary service. */
-    hrService = new HeartRateService(ble, hrmCounter, HeartRateService::LOCATION_FINGER);
-
-    /* Setup auxiliary service. */
-    deviceInfo = new DeviceInformationService(ble, "ARM", "Model1", "SN1", "hw-rev1", "fw-rev1", "soft-rev1");
+    float v1, v2, v3;
+    int16_t  value1;
+    uint16_t value2;
+    uint32_t value3;
+    EnvironmentalService Eserve(ble);
+    //Eserve = (Eserve*)malloc(sizeof(EnvironmentalService));
+  
+    /* Enable all sensors */
+    hum_temp->enable();
+    press_temp->enable();
 
     /* Setup advertising. */
     ble.gap().accumulateAdvertisingPayload(GapAdvertisingData::BREDR_NOT_SUPPORTED | GapAdvertisingData::LE_GENERAL_DISCOVERABLE);
@@ -71,38 +93,43 @@ void bleInitComplete(BLE::InitializationCompleteCallbackContext *params)
     ble.gap().setAdvertisingType(GapAdvertisingParams::ADV_CONNECTABLE_UNDIRECTED);
     ble.gap().setAdvertisingInterval(1000); /* 1000ms */
     ble.gap().startAdvertising();
-}
-
-int main(void)
-{
-    led1 = 1;
-    Ticker ticker;
-    ticker.attach(periodicCallback, 1); // blink LED every second
-
-    BLE& ble = BLE::Instance(BLE::DEFAULT_INSTANCE);
-    ble.init(bleInitComplete);
-
-    /* SpinWait for initialization to complete. This is necessary because the
-     * BLE object is used in the main loop below. */
-    while (ble.hasInitialized()  == false) { /* spin loop */ }
 
     // infinite loop
-    while (1) {
+    while (true) {
         // check for trigger from periodicCallback()
         if (triggerSensorPolling && ble.getGapState().connected) {
+            printf("enter triggered\n");
             triggerSensorPolling = false;
 
             // Do blocking calls or whatever is necessary for sensor polling.
             // In our case, we simply update the HRM measurement.
-            hrmCounter++;
-            if (hrmCounter == 175) { //  100 <= HRM bps <=175
-                hrmCounter = 100;
-            }
+            hum_temp->get_temperature(&v1);
+            hum_temp->get_humidity(&v2);
+            press_temp->get_pressure(&v3);
 
-            hrService->updateHeartRate(hrmCounter);
+
+            value1 = (int16_t)1;
+            value2 = (uint16_t)22;
+            value3 = (uint32_t)333;
+
+            Eserve.updateTemperature(value1);
+            Eserve.updateHumidity(value2);
+            Eserve.updatePressure(value3);
+
+
         } else {
             ble.waitForEvent(); // low power wait for event
+            printf("waiting . . . \n");
         }
     }
 }
+
+int main(void)
+{
+    Ticker ticker;
+    ticker.attach(periodicCallback, 1); // blink LED every second
+
+    BLE::Instance().init(bleInitComplete);
+}
+
 
