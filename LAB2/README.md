@@ -94,5 +94,7 @@ void bleInitComplete (BLE::InitializationCompleteCallbackContext *params){
 ![](https://i.imgur.com/cunwqXE.png)
 ![](https://i.imgur.com/ZPXXPOd.png)
 
-- <b>RESULT</b> 👍
+- <b>RESULT</b> 
+👍
+
 [![demo video](https://img.youtube.com/vi/yfDiwQY6qH8/0.jpg)](https://www.youtube.com/watch?v=yfDiwQY6qH8)
