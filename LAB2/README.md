@@ -86,4 +86,13 @@ void bleInitComplete (BLE::InitializationCompleteCallbackContext *params){
 
 - So we temporarily gave up on using this library, and turned to HC-05 as our bluetooth device.
 
-### Using HC-05 to implement weather station
+### Using Arduino and HC-05 to implement weather station
+- file `WeatherStation_2.ino`
+- We plugged the sensor onto the Arduino board, and used HC-05 as the BLE device
+![](https://i.imgur.com/xDmlsLU.jpg)
+- And we used the MIT App Inventor to create a BLE app.
+![](https://i.imgur.com/cunwqXE.png)
+![](https://i.imgur.com/ZPXXPOd.png)
+
+- <b>RESULT</b> 👍
+[![demo video](https://img.youtube.com/vi/yfDiwQY6qH8/0.jpg)](https://www.youtube.com/watch?v=yfDiwQY6qH8)
