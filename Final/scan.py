@@ -6,48 +6,47 @@ import pyzbar.pyzbar as pyzbar
 import requests
 import lcddriver
 from time import *
+import serial
 
 lcd = lcddriver.lcd()
-
-lcd.lcd_display_string("antisteo on YT", 1)
-lcd.lcd_display_string("LCD runtime is", 2)
-lcd.lcd_display_string("picorder", 3)
-lcd.lcd_display_string("connect me via I2C", 4)
+lcd.lcd_display_string("Welcome!", 1)
+lcd.lcd_display_string("Please show your QR code", 2)
+port = serial.Serial(“/dev/ttyAMA0″, baudrate=9600, timeout=0.5)
 
 while(True):
+    ## take a photo and decode
     stream = io.BytesIO()
-    lcd.lcd_display_string("Welcome!", 1)
-    lcd.lcd_display_string("Please show your QR code", 2)
     with picamera.PiCamera() as camera:
         camera.start_preview()
         time.sleep(2)
         camera.capture(stream, format='jpeg')
-    # "Rewind" the stream to the beginning so we can read its content
+        camera.close()
+        del(camera)
     stream.seek(0)
     pil = Image.open(stream)
-    #
-    #########################################
-    #
-    # create a reader
     texts = pyzbar.decode(pil)
-    if len(texts) == 0:
+
+    ## determine authority
+    if len(texts) == 0: ## NO QR CODE
         print('NO QRcode!')
-    else:
-        for text in texts:
-            tt = text.data.decode("utf-8")
-            print(tt)
-            r = requests.get('http://' + tt)
-            print('status = ', r.status_code)
-            lcd.lcd_display_string("QRcode recognized!", 3)
-            if r.status_code == requests.codes.ok:
-                print("connect OK!")
-            else:
-                print('failed to send request!')
-            print('text = ', r.text)
-            lcd.lcd_display_string("Hello" + r.text, 4)
+    elif len(texts) == 1: ## ONE QR CODE
+        tt = texts[0].data.decode("utf-8")
+        print(tt)
+        r = requests.get('http://' + tt)
+        print('status = ', r.status_code)
+        lcd.lcd_display_string("QRcode recognized!", 3)
+        if r.status_code == requests.codes.ok:
+            print("connect OK!")
+        else:
+            print('failed to send request!')
+        print('text = ', r.texts[0])
+        port.write('1')
+        lcd.lcd_display_string("Hello" + r.texts[0], 4)
+    else: ## MORE THAN ONE QR CODE
+        print('more than one QR code!')
+        lcd.lcd_display_string("One person at a time", 4)
 
     # clean up
     del(pil)
-    camera.close()
-    del(camera)
+
 
