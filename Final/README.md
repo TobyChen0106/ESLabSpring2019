@@ -11,7 +11,7 @@ DEMO 影片連結：
 - 外殼(正)
 三個開口由上而下依序為：顯示LCD螢幕、放QR code的位置、出貨口
 左右兩側對稱，為兩獨立系統，可以放兩種貨品
-![](picture/IMG_5609.JPG | width=100)
+![image](picture/IMG_5609.JPG)
 ![image](picture/IMG_5610.JPG)
 ![image](picture/IMG_5611.JPG)
 ![image](picture/IMG_5612.JPG)
@@ -21,8 +21,15 @@ DEMO 影片連結：
 ![image](picture/IMG_5607.JPG)
 ![image](picture/IMG_5616.JPG)
 ![image](picture/IMG_5617.JPG)
-- 
+- 控制出貨的兩個馬達
+![image](picture/IMG_5620.JPG)
+![image](picture/IMG_5622.JPG)
+- 檢測是否有貨品在預備區的超音波模組
+![image](picture/IMG_5627.JPG)
+
 ## 運作系統
+- 用RPi作為主控制，連接LCD螢幕、PiCamera和Arduino，再由Arduino控制馬達及超音波模組。
+- 
 
 
 ## 網頁
