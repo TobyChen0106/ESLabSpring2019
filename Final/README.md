@@ -3,6 +3,6 @@
 ## 簡介
 
 ## 結構圖解
-picture/IMG_5607.JPG
+![image](picture/IMG_5607.JPG)
 ## 運作系統
 ## 網頁
