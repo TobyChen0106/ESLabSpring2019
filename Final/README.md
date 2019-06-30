@@ -5,13 +5,12 @@
 ## 簡介
 這是一台可以掃描QR code的自動取貨機，使用這先進到我們的網站下單，付款成功後會得到一個QR code，再拿著這個QR code到取貨機色掃描，機器便會吐出一個貨品。
 
-![DEMO 影片連結](https://www.youtube.com/watch?v=u9Ktvp-XweY&feature=youtu.be)
-
+[![DEMO 影片連結](https://img.youtube.com/vi/u9Ktvp-XweY/0.jpg)](https://www.youtube.com/watch?v=u9Ktvp-XweY)
 ## 結構圖解
 - 外殼(正)
 三個開口由上而下依序為：顯示LCD螢幕、放QR code的位置、出貨口
 左右兩側對稱，為兩獨立系統，可以放兩種貨品
-![image](picture/IMG_5609.JPG)
+![image](picture/IMG_5609.JPG=300x400)
 ![image](picture/IMG_5610.JPG)
 ![image](picture/IMG_5611.JPG)
 ![image](picture/IMG_5612.JPG)
