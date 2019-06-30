@@ -10,7 +10,7 @@
 - 外殼(正)
 三個開口由上而下依序為：顯示LCD螢幕、放QR code的位置、出貨口
 左右兩側對稱，為兩獨立系統，可以放兩種貨品
-![image](picture/IMG_5609.JPG=300x400)
+![](picture/IMG_5609.JPG|width=100)
 ![image](picture/IMG_5610.JPG)
 ![image](picture/IMG_5611.JPG)
 ![image](picture/IMG_5612.JPG)
